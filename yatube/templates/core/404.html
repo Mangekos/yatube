@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Custom 404{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 p-5" >
+      <div class="card glass" >
+        <div class="card-header text-center text-white" style="background:#778899" >       
+          <h1>Custom 404</h1>
+          <div class="card-body" style="color:white">        
+            <p>Страницы с адресом {{ path }} не существует</p>
+            <a class="btn btn-primary" href="{% url 'posts:index' %}" role="button">Идите на главную</a>
+          </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

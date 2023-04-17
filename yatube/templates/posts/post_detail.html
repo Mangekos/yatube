@@ -1,0 +1,56 @@
+<!DOCTYPE html> 
+{% extends 'base.html' %}
+{% load thumbnail %}
+{% load user_filters %}
+{% block title %}
+Пост {{post.text|truncatechars:30 }}
+{% endblock %}
+{% block content %}
+<div class="container py-5">
+      <div class="row" style="background-color: white;">
+      <aside class="col-12 col-md-3">
+        <ul style="background-color: transparent;" class="list-group list-group-flush">
+          <li style="background-color: transparent;" class="list-group-item"
+          ><i class="bi bi-calendar3"></i>
+            {{ post.pub_date|date:"d E Y" }} 
+          </li>
+            {% if post.group %}   
+            <li style="background-color: transparent;" class="list-group-item">
+              Группа: {{post.group}}
+              <a href="{% url 'posts:group_list' post.group.slug %}" class="btn btn-outline-primary btn-sm"
+              ><i class="bi bi-collection"></i>
+                Все записи {{post.group.title}}
+                </a>
+          {% endif %}
+            </li>
+            <li style="background-color: transparent;" class="list-group-item">
+              Автор: {{ post.author.get_full_name }}
+            </li>
+            <li style="background-color: transparent;" class="list-group-item d-flex justify-content-between align-items-center">
+              Всего постов автора:  <span >{{ post.author.posts.count }}</span>
+            </li>
+            <li style="background-color: transparent;" class="list-group-item">
+              <a href="{% url 'posts:profile' post.author.username %}" class="btn btn-outline-primary btn-sm me-md-2"
+              ><i class="bi bi-person-vcard"></i>
+                Все посты пользователя
+              </a>
+            </li>
+          </ul>
+        </aside>
+        <article class="col-12 col-md-9">
+            {% thumbnail post.image "960x339" crop="center" upscale=True as im %}
+            <img class="card-img my-2" src="{{ im.url }}">
+            {% endthumbnail %}
+          <p>
+            {{ post.text }}
+          </p>
+          {% if user == post.author %}
+              <a class="btn btn-primary" href="{% url 'posts:post_edit' post_id=post.id %}">
+                 редактировать запись
+              </a>
+          {% endif %}
+          {% include 'includes/comment.html' %}
+        </article>
+      </div> 
+    </div>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Технологии{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row ">
+      <div class="col-12">
+        <h1>Вот что я умею</h1>
+      </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row text-white">
+      <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+        <aside class="col-12 col-md-6">
+            <ul style="background-color: transparent;" class="list-group list-group-flush">
+                <li style="background-color: transparent;" class="list-group-item"
+          >
+                <h5><b>Python</b></h5>
+            </li>
+            <li style="background-color: transparent;" class="list-group-item"
+          >
+              <h5><b>Django</b></h5>
+            </li>
+          </ul>
+        </aside>  
+        <article class="col-12 col-md-8">
+          <p>В данном проекте очень помогли знания:</p>
+          <ul>
+            <li>Работа с базами SQLite</li>
+            <li>Принципы ОПП</li>
+            <li>Django</li>
+          </ul>
+          </p>
+        </article>
+        <p>Коллеги по Когорте:
+            <ul>
+                <li><b>Александр Валиев</b></li>
+                <li><b>Магомед Юнусов</b></li>
+                <li><b>Николай Лясоцкий</b></li>
+                <li><b>Василий Кулаковский</b></li>
+                <li><b>Александр Кирсанов</b></li>
+            </ul>
+            <p>
+            <h5>И всех кому мне удалось помочь.</h5>
+            </p>
+            <p>
+            Огромное Вам спасибо, без вашей помощи, я бы не научился искать ошибки и способы их решения
+        </p>
+      </div>
+      <div class="col-12 col-md-6">
+        <p></p>
+        <img src="{% static 'img/python.jpg' %}" width="200" height="200">
+        <p></p>
+        <img src="{% static 'img/mem.jpg' %}" width="400" height="250">
+      </div>
+    </div>
+  </div>
+{% endblock %} 

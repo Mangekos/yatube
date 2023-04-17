@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load thumbnail %}
+
+{% block content %}
+<div class="container py-5 " >        
+    <div class="row justify-content-md-center ">
+        <div class="col col-md-8">
+        <h1>{{ title }}</h1>
+        {% include 'includes/switcher.html' %}
+        </div>
+        </div>
+        <br>
+        <div class="row justify-content-md-center">
+            <div class="col col-md-8">
+                {% for post in page_obj %}
+              <div class="card ">
+                <div class="card-header text-center glass" style="background:#A9A9A9">
+                    <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="{% url 'posts:profile' post.author.username %}" style="font-size: 14px;">
+                    {{ post.author.get_full_name }}
+                    </a>
+                    <small class="text-body-white">
+                        добавил запись
+                    </small>
+                  </div>
+                <div class="card-body">
+                    {% thumbnail post.image "960x339" crop="center" upscale=True as im %}
+                    <img class="card-img my-2" src="{{ im.url }}">
+                    {% endthumbnail %}
+                  <p class="card-text">
+                    {{ post.text }}
+                  </p>
+                  <hr>
+                  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    {% if post.pk %}   
+                    <a href="{% url 'posts:post_detail' post.id %}" class="btn btn-outline-primary btn-sm me-md-2"
+                    ><i class="bi bi-info-circle"></i>
+                      Подробная информация 
+                    </a>
+                    {% endif %}
+                    {% if post.group %}   
+                    <a href="{% url 'posts:group_list' post.group.slug %}" class="btn btn-outline-primary btn-sm"
+                    ><i class="bi bi-collection"></i>
+                      Группа {{post.group.title}}
+                      </a>
+                    {% endif %}
+                      </div>  
+                </div>
+                <div class="card-footer glass" style="background:#A9A9A9">
+                    <small class="d-md-flex justify-content-md-end">
+                        Дата публикации: {{ post.pub_date|date:"d E Y" }}
+                      </small>
+                </div>
+              </div>
+                {% if not forloop.last %}
+                <hr>
+                {% endif %}
+                {% endfor %}
+                {% include 'posts/paginator.html' %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

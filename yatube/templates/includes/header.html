@@ -1,0 +1,84 @@
+{% load static %}
+
+<header>
+    <nav class="navbar navbar-expand-lg" style="background-color: #557A95">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'posts:index' %}" style="color:white">
+                <img src="{% static 'img/logo.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+                <span style="color:red">Ya</span>tube
+              </a>  
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent" >
+            {% with request.resolver_match.view_name as view_name %}
+            <ul class="navbar-nav ms-auto mb-auto" >
+                <li class="nav-item" > 
+                    <a class="nav-link 
+                    {% if view_name  == 'about:author' %}active{% endif %}"
+                    href="{% url 'about:author' %}" style="color:white"
+                    ><i class="bi bi-person-badge"></i>
+                    Об авторе
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link 
+                    {% if view_name  == 'about:tech' %}active{% endif %}"
+                    href="{% url 'about:tech' %}" style="color:white"
+                    ><i class="bi bi-gear-wide-connected"></i>
+                    Технологии
+                    </a>
+                  </li>
+                  <li class="nav-item dropdown">
+                    {% if user.is_authenticated %}
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:white">
+                    {{ user.first_name }}
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item {% if view_name  == 'posts:post_create' %}active{% endif %}"
+                    href="{% url 'posts:post_create' %}" 
+                    >
+                    Новая запись
+                    </a></li>
+                  <li><a class="dropdown-item {% if view_name  == 'users:password_change_form' %}active{% endif %}"
+                    href="{% url 'users:password_change_form' %}"
+                    >
+                    Изменить пароль
+                    </a></li>
+                  <li><a class="dropdown-item {% if view_name  == 'users:logout' %}active{% endif %}"
+                    href="{% url 'users:logout' %}"
+                    >
+                    Выйти
+                    </a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item {% if view_name  == 'posts:profile' %}active{% endif %}"
+                    href="{% url 'posts:profile' request.user %}"
+                    >
+                    Пользователь: {{ user.username }}
+                    </a></li>
+                    {% else %}
+                    <li class="nav-item"> 
+                      <a class="nav-link 
+                      {% if view_name  == 'users:login' %}active{% endif %}"
+                      href="{% url 'users:login' %}"
+                      >
+                      Войти
+                      </a>
+                    </li>
+                    <li class="nav-item"> 
+                      <a class="nav-link 
+                      {% if view_name  == 'users:signup' %}active{% endif %}"
+                      href="{% url 'users:signup' %}"
+                      >
+                      Регистрация
+                      </a>
+                    </li>
+                      </ul>
+              </li>
+            </ul>
+            {% endif %}
+            {% endwith %}
+          </div>
+        </div>
+      </nav>
+</header> 
