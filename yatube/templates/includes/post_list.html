@@ -1,0 +1,40 @@
+{% load thumbnail %}
+<div class="card glass" style="">
+    <div class="card-header text-center glass" style="background:linear-gradient(0deg, rgba(240, 244, 254, 0.63), rgba(240, 244, 254, 0.63));">
+        <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" 
+        href="{% url 'posts:profile' post.author.username %}" >
+        {{ post.author.get_full_name }}
+        </a>
+        <small class="text-body-secondary">
+            добавил запись
+        </small>
+    </div>
+      {% thumbnail post.image "x339"  crop="center"  as im %}
+      <img class="img-thumbnail mx-auto d-block " src="{{ im.url }}" >
+      {% endthumbnail %}
+    <div class="card-body glass" style= "background: linear-gradient(0deg, rgba(144, 37, 134, 0.510967) 2.15%, rgba(116, 78, 141, 0) 49.08%, rgba(85, 122, 149, 0.5) 100%);" >
+          <p class="card-text" style="font-size: 15px; ">
+        {{ post.text|linebreaksbr }}
+      </p>
+      <hr>
+      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        {% if post.pk %}   
+        <a href="{% url 'posts:post_detail' post.id %}" class="iksweb btn-sm"
+        ><i class="bi bi-info-circle"></i>
+          Подробная информация 
+        </a>
+        {% endif %}
+        {% if post.group %}   
+        <a href="{% url 'posts:group_list' post.group.slug %}" class="iksweb btn-sm"
+        ><i class="bi bi-collection"></i>
+          Группа {{post.group.title}}
+          </a>
+        {% endif %}
+          </div>  
+    </div>
+    <div class="card-footer glass" style="background:linear-gradient(0deg, rgba(240, 244, 254, 0.63), rgba(240, 244, 254, 0.63));">
+        <small class="d-md-flex justify-content-md-end">
+            Дата публикации: {{ post.pub_date|date:"d E Y" }}
+          </small>
+    </div>
+</div>

@@ -9,6 +9,7 @@ User = get_user_model()
 class PostModelTest(TestCase):
     @classmethod
     def setUpClass(cls):
+        """Создаем запись в базе"""
         super().setUpClass()
         cls.user = User.objects.create_user(username='auth')
         cls.group = Group.objects.create(

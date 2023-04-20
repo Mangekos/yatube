@@ -9,55 +9,54 @@ from django.views.decorators.cache import cache_page
 NUMBER_POSTS = 10
 
 
-# Главная страница
-@cache_page(20)
-def index(request):
-    posts = Post.objects.all()
+def get_paginator(posts, request):
+    """Пагинатор"""
     paginator = Paginator(posts, NUMBER_POSTS)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+    return page_obj
+
+
+@cache_page(20)
+def index(request):
+    """Главная страница"""
+    posts = Post.objects.all()
     title = 'Последние обновления на сайте'
     context = {
         'title': title,
-        'page_obj': page_obj,
+        'page_obj': get_paginator(posts, request),
     }
     return render(request, 'posts/index.html', context)
 
 
-# View-функция для страницы сообщества:
 def group_posts(request, slug):
+    """View-функция для страницы сообщества:"""
     group = get_object_or_404(Group, slug=slug)
     title = (f'Записи сообщества {group}')
     posts = group.posts.all()
-    paginator = Paginator(posts, NUMBER_POSTS)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
     context = {
         'group': group,
         'title': title,
-        'page_obj': page_obj,
+        'page_obj': get_paginator(posts, request),
     }
     return render(request, 'posts/group_list.html', context)
 
 
-# Информация о профиле
 def profile(request, username):
+    """Информация о профиле"""
     author = get_object_or_404(User, username=username)
     posts = author.posts.all()
     following = author.following.all()
-    paginator = Paginator(posts, NUMBER_POSTS)
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
     context = {
         'author': author,
-        'page_obj': page_obj,
+        'page_obj': get_paginator(posts, request),
         'following': following,
     }
     return render(request, 'posts/profile.html', context)
 
 
-# Информация о постах
 def post_detail(request, post_id):
+    """Информация о постах"""
     form = CommentForm(request.POST or None)
     post = get_object_or_404(Post, pk=post_id)
     comments = Comment.objects.filter(post=post)
@@ -71,6 +70,7 @@ def post_detail(request, post_id):
 
 @login_required
 def post_create(request):
+    """Создание поста"""
     form = PostForm(request.POST or None, files=request.FILES or None,)
     if form.is_valid():
         post = form.save(commit=False)
@@ -85,6 +85,7 @@ def post_create(request):
 
 @login_required
 def post_edit(request, post_id):
+    """Редактирование поста"""
     post = get_object_or_404(Post, pk=post_id)
     is_edit = True
     form = PostForm(
@@ -106,6 +107,7 @@ def post_edit(request, post_id):
 
 @login_required
 def add_comment(request, post_id):
+    """Добавить комментарий к посту"""
     post = get_object_or_404(Post, pk=post_id, )
     form = CommentForm(request.POST or None)
     if form.is_valid():
@@ -116,22 +118,19 @@ def add_comment(request, post_id):
     return redirect('posts:post_detail', post_id=post_id)
 
 
-# информация о текущем пользователе доступна в переменной request.user
 @login_required
 def follow_index(request):
+    """Страница избранные авторы"""
     posts = Post.objects.filter(author__following__user=request.user)
-    paginator = Paginator(posts, NUMBER_POSTS)
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
     context = {
-        'page_obj': page_obj
+        'page_obj': get_paginator(posts, request),
     }
     return render(request, 'posts/follow.html', context)
 
 
-# Подписаться на автора
 @login_required
 def profile_follow(request, username):
+    """Подписка на автора"""
     author = get_object_or_404(User, username=username)
     if author != request.user:
         Follow.objects.get_or_create(
@@ -141,9 +140,9 @@ def profile_follow(request, username):
     return redirect("posts:follow_index")
 
 
-# Дизлайк, отписка
 @login_required
 def profile_unfollow(request, username):
+    """Отписаться от автора"""
     author = get_object_or_404(User, username=username)
     Follow.objects.get(
         user=request.user,

@@ -146,6 +146,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION': os.path.join(BASE_DIR, 'posts_cache')
+        'LOCATION': os.path.join(BASE_DIR, 'posts_cache'),
+        'OPTIONS': {
+            'MAX_ENTRIES': 10
+        }
     }
 }

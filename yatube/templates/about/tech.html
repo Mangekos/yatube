@@ -3,58 +3,220 @@
 
 {% block title %}Технологии{% endblock %}
 {% block content %}
-<div class="container">
-    <div class="row ">
+<div class="container py-5">
+    <div class="row text-center">
       <div class="col-12">
-        <h1>Вот что я умею</h1>
+        <div class="card h-100 glass">
+            <div class="card-header text-center"
+              ><h5>В данном проекте очень помогли:</h5>
+            </div>
+            <div class="card-body" >
+                <p class="card-text" style="font-size: 18px; ">
+                Работа с базами SQLite
+                <br>
+                Принципы ООП
+                <br>
+                Django
+                <br>
+                Помощь коллег
+                <br>
+                Наставники
+                <br>
+                Ревьюеры
+              </ul>
+            </div>
+            <div class="card-footer text-center">
+              <h5>Огромное Вам спасибо, без вашей помощи, я бы не научился искать ошибки и способы их решения</h5>
+              <br>
+              <h5>Отдельное спасибо команде поддержки и сопровождения</h5>
+            </div>    
+          </div>
       </div>
     </div>
 </div>
 <div class="container">
-    <div class="row text-white">
-      <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-        <aside class="col-12 col-md-6">
-            <ul style="background-color: transparent;" class="list-group list-group-flush">
-                <li style="background-color: transparent;" class="list-group-item"
-          >
-                <h5><b>Python</b></h5>
-            </li>
-            <li style="background-color: transparent;" class="list-group-item"
-          >
-              <h5><b>Django</b></h5>
-            </li>
-          </ul>
-        </aside>  
-        <article class="col-12 col-md-8">
-          <p>В данном проекте очень помогли знания:</p>
-          <ul>
-            <li>Работа с базами SQLite</li>
-            <li>Принципы ОПП</li>
-            <li>Django</li>
-          </ul>
-          </p>
-        </article>
-        <p>Коллеги по Когорте:
-            <ul>
-                <li><b>Александр Валиев</b></li>
-                <li><b>Магомед Юнусов</b></li>
-                <li><b>Николай Лясоцкий</b></li>
-                <li><b>Василий Кулаковский</b></li>
-                <li><b>Александр Кирсанов</b></li>
-            </ul>
-            <p>
-            <h5>И всех кому мне удалось помочь.</h5>
-            </p>
-            <p>
-            Огромное Вам спасибо, без вашей помощи, я бы не научился искать ошибки и способы их решения
-        </p>
-      </div>
-      <div class="col-12 col-md-6">
-        <p></p>
-        <img src="{% static 'img/python.jpg' %}" width="200" height="200">
-        <p></p>
-        <img src="{% static 'img/mem.jpg' %}" width="400" height="250">
-      </div>
+    <div class="row row-cols-3 row-cols-md-3 g-4">
+        <div class="col">
+            <div class="card h-100">
+              <img src="{% static 'img/Vikusy.jpg' %}" class="card-img-top" alt="...">
+              <div class="card-header text-center"
+                ><h5>Супруга/Дизайнер</h5>
+              </div>
+              <div class="card-body">
+                <p class="card-text">
+                  Хочу сказать спасибо, за качественный дизайн.
+                  <br>
+                  А так же, за твою поддрежку в течении всего обучения.
+                  <br>
+                  За веру в меня и просто за то, что ты прошла этот путь со мной.
+                </p>
+              </div>
+              <div class="card-footer text-center">
+                <h5>Квитковская Виктория</h5>
+              </div>    
+            </div>
+          </div>
+          <div class="col">
+          <div class="card h-100">
+            <img src="{% static 'img/Reviev.jpg' %}" class="card-img-top" alt="...">
+            <div class="card-header text-center"
+              ><h5>Ревьюер</h5>
+            </div>
+            <div class="card-body">
+              <p class="card-text">
+                Хочу сказать спасибо, за качественное ревью.
+                <br>
+                А так же, что дала возможность, довести свой проект без рефакторинга до конца.
+              </p>
+            </div>
+            <div class="card-footer text-center">
+              <h5>Фасхутдинова Диляра</h5>
+            </div>    
+          </div>
+        </div>
+        <div class="col">
+          <div class="card h-100">
+            <img src="{% static 'img/Alexa.jpg' %}" class="card-img-top" alt="...">
+            <div class="card-header text-center"
+              ><h5>Наставник</h5>
+            </div>
+            <div class="card-body">
+              <p class="card-text">
+                Хочу сказать спасибо, за вебинар "Декораторы". 
+                <br>
+                Было очень интересно, часть информации использую до сих пор.
+                <br>
+                А так же, за поддержку в течении всего блока.
+                <br>
+                Однажды на 3 спринте, ты помогла привести шаблон в порядок.
+                После этого начал рождаться данный проект, со всеми его изменениями.
+              </p>
+            </div>
+            <div class="card-footer text-center">
+              <h5>Литошенко Александра</h5>
+            </div>    
+          </div>
+        </div>
+        <div class="col">
+          <div class="card h-100">
+            <img src="{% static 'img/Andy.jpg' %}" class="card-img-top" alt="...">
+            <div class="card-header text-center"
+              ><h5>Наставник</h5>
+            </div>
+            <div class="card-body">
+              <p class="card-text">
+                Хочу сказать спасибо, за вебинар "Тестирование Django". 
+                <br>
+                Хоть тесты и написал с закрытыми глазами, но твой вебинар все расставил на свои места.
+                <br>
+                А так же, за поддержку в течении всего блока.
+              </p>
+            </div>
+            <div class="card-footer text-center">
+              <h5>Галкин Андрей</h5>
+            </div>    
+          </div>
+        </div>
+        <div class="col">
+          <div class="card h-100">
+            <img src="{% static 'img/Valery.jpg' %}" class="card-img-top" alt="...">
+            <div class="card-header text-center"
+              ><h5>Наставник</h5>
+            </div>
+            <div class="card-body">
+              <p class="card-text">
+                Хочу сказать спасибо, за вебинар по ООП.
+                <br>
+                А так же, за поддержку в течении всего блока.
+                <br>
+                За подсказки и помощь.
+              </p>
+            </div>
+            <div class="card-footer text-center">
+              <h5>Щепак Валерий</h5>
+            </div>    
+          </div>
+        </div>
+        <div class="col">
+          <div class="card h-100">
+            <img src="{% static 'img/Alexey.jpg' %}" class="card-img-top" alt="...">
+            <div class="card-header text-center"
+              ><h5>Наставник</h5>
+            </div>
+            <div class="card-body">
+              <p class="card-text">
+                Хочу сказать спасибо, за вебинар Django и ORM.
+                <br>
+                А так же, за поддержку в течении всего блока.
+                <br>
+                За своевременные поправки и точную информацию.
+              </p>
+            </div>
+            <div class="card-footer text-center">
+              <h5>Кашлинов Алексей</h5>
+            </div>    
+          </div>
+        </div>
+        <div class="col">
+          <div class="card h-100">
+            <img src="{% static 'img/Alex.png' %}" class="card-img-top" alt="...">
+            <div class="card-header text-center"
+              ><h5>Сокурсник</h5>
+            </div>
+            <div class="card-body">
+              <p class="card-text">
+                Хочу сказать спасибо, за твой вечный гениратор идей. 
+                <br>
+                Половина из того, что есть в данном проекте простые идеи. Которые хотелось реализовать.
+                <br>
+                А так же, за подсказки и наводки в течении блока.
+              </p>
+            </div>
+            <div class="card-footer text-center">
+              <h5>Валиев Александр</h5>
+            </div>    
+          </div>
+        </div>
+        <div class="col">
+          <div class="card h-100">
+            <img src="{% static 'img/Maga.jpeg' %}" class="card-img-top" alt="...">
+            <div class="card-header text-center"
+              ><h5>Сокурсник</h5>
+            </div>
+            <div class="card-body">
+              <p class="card-text">
+                Хочу сказать спасибо, как ни странно, за твои ошибки в проекте. 
+                <br>
+                Без ошибок и поиска решений, мы бы с тобой не развивались. Иногда я просто не умею ломать проект как вы.
+                <br>
+                А так же, за простую и человеческую поддержку в течении блока.
+              </p>
+            </div>
+            <div class="card-footer text-center">
+              <h5>Юнусов Магомед</h5>
+            </div>    
+          </div>
+        </div>
+        <div class="col">
+          <div class="card h-100">
+            <img src="{% static 'img/Alex_B.jpeg' %}" class="card-img-top" alt="...">
+            <div class="card-header text-center"
+              ><h5>Сокурсник</h5>
+            </div>
+            <div class="card-body">
+              <p class="card-text">
+                Хочу сказать спасибо, за толчек в развитии стилей проекта. 
+                <br>
+                Иконки, цвета сайта, картинки - начало этому лежит в твоем первом файле style.css. Посмотрев на который, я решил все изменить.
+                <br>
+                А так же, за простую и человеческую поддержку в течении блока.
+              </p>
+            </div>
+            <div class="card-footer text-center">
+              <h5>Бондарь Александр</h5>
+            </div>    
+          </div>
+        </div>
     </div>
-  </div>
+</div>
 {% endblock %} 

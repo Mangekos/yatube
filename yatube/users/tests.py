@@ -12,6 +12,7 @@ User = get_user_model()
 class PostURLSTest(TestCase):
     @classmethod
     def setUpClass(cls):
+        """Создаем запись в базе"""
         super().setUpClass()
         cls.user = User.objects.create_user(username='HasNoName')
         cls.group = Group.objects.create(
@@ -25,11 +26,10 @@ class PostURLSTest(TestCase):
         )
 
     def setUp(self):
-        # Создаем неавторизованный клиент
+        """Создаем неавторизованный клиент.
+        Создаём авторизованный клиент."""
         self.guest_client = Client()
-        # Создаем второй клиент
         self.authorized_client = Client()
-        # Авторизуем пользователя
         self.authorized_client.force_login(PostURLSTest.user)
 
     def test_urls_users_exists_at_desired_location(self):
@@ -60,7 +60,6 @@ class PostURLSTest(TestCase):
 
     def test_users_pages_uses_correct_template(self):
         """URL-адрес использует соответствующий шаблон."""
-        # Собираем в словарь пары "reverse(name): имя_html_шаблона"
         templates_pages_names = {
             reverse('users:signup'): 'users/signup.html',
             reverse('users:logout'): 'users/logged_out.html',
@@ -75,7 +74,6 @@ class PostURLSTest(TestCase):
                 'users:password_reset_complete'
             ): 'users/password_reset_complete.html',
         }
-        # Проверяем URLS использует соответствующий HTML-шаблон
         for reverse_name, template in templates_pages_names.items():
             with self.subTest(reverse_name=reverse_name):
                 response = self.authorized_client.get(reverse_name)

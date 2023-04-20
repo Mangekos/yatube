@@ -8,14 +8,14 @@ User = get_user_model()
 
 class AboutPagesURLTests(TestCase):
     def setUp(self):
-        # Создаем неавторизованый клиент
+        """Создаем неавторизованый клиент и авторизуем."""
         self.guest_client = Client()
         self.user = User.objects.create_user(username='Mangekos')
         self.authorized_client = Client()
         self.authorized_client.force_login(self.user)
 
     def test_about_url_exists_at_desired_location(self):
-        """Проверка доступности адресов /about/."""
+        """Проверка доступности адресов /about/ гостю."""
         templates_url = [
             '/about/author/',
             '/about/tech/',
@@ -25,7 +25,8 @@ class AboutPagesURLTests(TestCase):
             self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_about_auth_url_exists_at_desired_location(self):
-        """Проверка доступности адресов /about/."""
+        """Проверка доступности адресов /about/,
+          для авторизированного пользователя."""
         templates_url = [
             '/about/author/',
             '/about/tech/',

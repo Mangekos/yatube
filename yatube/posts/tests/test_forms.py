@@ -1,86 +1,24 @@
-import shutil
+from django.core.cache import cache
 from django.conf import settings
 from django.test import TestCase, Client, override_settings
 from django.urls import reverse
-from posts.forms import PostForm
-from http import HTTPStatus
-
-import tempfile
 from django.core.files.uploadedfile import SimpleUploadedFile
 
+import tempfile
+import shutil
+
+from posts.forms import PostForm
+from http import HTTPStatus
 from posts.models import Post, Group, User
-
-
-class PostFormsTest(TestCase):
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls.user = User.objects.create_user(username='HasNoName')
-        cls.group = Group.objects.create(
-            title='Тестовая группа',
-            slug='test-slug',
-            description='Тестовое описание',
-        )
-        cls.post = Post.objects.create(
-            author=cls.user,
-            text='Тестовый пост',
-            group=cls.group
-        )
-        cls.form = PostForm()
-
-    def setUp(self):
-        # Создаём авторизованный клиент
-        self.authorized_client = Client()
-        self.authorized_client.force_login(PostFormsTest.user)
-
-    def test_create_post(self):
-        """Валидная форма создает запись в POST."""
-        posts_count = Post.objects.count()
-        form_data = {'text': 'Тестовый текст'}
-        response = self.authorized_client.post(
-            reverse('posts:post_create'),
-            data=form_data,
-            follow=True
-        )
-        # Проверяем, сработал ли редирект
-        self.assertRedirects(response, reverse(
-            'posts:profile', kwargs={'username': self.post.author}
-        ))
-        # Проверяем, увеличилось ли число постов
-        self.assertEqual(Post.objects.count(), posts_count + 1)
-        self.assertTrue(
-            Post.objects.filter(text='Тестовый текст').exists()
-        )
-        self.assertEqual(response.status_code, HTTPStatus.OK)
-
-    def test_edit_post(self):
-        """Валидная форма изменяет запись в POST."""
-        posts_count = Post.objects.count()
-        form_data = {'text': 'Изменяем текст'}
-        response = self.authorized_client.post(
-            reverse('posts:post_edit', kwargs={'post_id': self.post.id}),
-            data=form_data,
-            follow=True
-        )
-        # Проверяем, сработал ли редирект
-        self.assertRedirects(response, reverse(
-            'posts:post_detail', kwargs={'post_id': self.post.id}
-        ))
-        # Проверяем, не увеличилось ли число постов
-        self.assertEqual(Post.objects.count(), posts_count)
-        self.assertTrue(
-            Post.objects.filter(text='Изменяем текст').exists()
-        )
-        self.assertEqual(response.status_code, HTTPStatus.OK)
-
 
 TEMP_MEDIA_ROOT = tempfile.mkdtemp(dir=settings.BASE_DIR)
 
 
 @override_settings(MEDIA_ROOT=TEMP_MEDIA_ROOT)
-class ImageTests(TestCase):
+class PostFormsTest(TestCase):
     @classmethod
     def setUpClass(cls):
+        """Создаем запись в базе"""
         super().setUpClass()
         cls.user = User.objects.create_user(username='HasNoName')
         cls.group = Group.objects.create(
@@ -107,19 +45,59 @@ class ImageTests(TestCase):
             group=cls.group,
             image=cls.uploaded
         )
+        cls.form = PostForm()
 
     @classmethod
     def tearDownClass(cls):
+        """Удаляем папку медиа"""
         super().tearDownClass()
         shutil.rmtree(TEMP_MEDIA_ROOT, ignore_errors=True)
 
     def setUp(self):
-        # Создаем неавторизованный клиент
-        self.guest_client = Client()
+        """Очищаем cache конфликт в тестах.
+        Создаём авторизованный клиент."""
+        cache.clear()
+        self.authorized_client = Client()
+        self.authorized_client.force_login(PostFormsTest.user)
+
+    def test_create_post(self):
+        """Валидная форма создает запись в POST."""
+        posts_count = Post.objects.count()
+        form_data = {'text': 'Тестовый текст'}
+        response = self.authorized_client.post(
+            reverse('posts:post_create'),
+            data=form_data,
+            follow=True
+        )
+        self.assertRedirects(response, reverse(
+            'posts:profile', kwargs={'username': self.post.author}
+        ))
+        self.assertEqual(Post.objects.count(), posts_count + 1)
+        self.assertTrue(
+            Post.objects.filter(text='Тестовый текст').exists()
+        )
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+
+    def test_edit_post(self):
+        """Валидная форма изменяет запись в POST."""
+        posts_count = Post.objects.count()
+        form_data = {'text': 'Изменяем текст'}
+        response = self.authorized_client.post(
+            reverse('posts:post_edit', kwargs={'post_id': self.post.id}),
+            data=form_data,
+            follow=True
+        )
+        self.assertRedirects(response, reverse(
+            'posts:post_detail', kwargs={'post_id': self.post.id}
+        ))
+        self.assertEqual(Post.objects.count(), posts_count)
+        self.assertTrue(
+            Post.objects.filter(text='Изменяем текст').exists()
+        )
+        self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_create_post(self):
         """Картинка передается на страницу index/group_list/profile."""
-        # Подготавливаем данные для передачи в форму
         templates = (
             reverse("posts:index"),
             reverse("posts:profile", kwargs={"username": self.post.author}),
@@ -127,13 +105,13 @@ class ImageTests(TestCase):
         )
         for url in templates:
             with self.subTest(url):
-                response = self.guest_client.get(url)
+                response = self.authorized_client.get(url)
                 obj = response.context["page_obj"][0]
                 self.assertEqual(obj.image, self.post.image)
 
     def test_image_in_post_detail_page(self):
         """Картинка передается на страницу post_detail."""
-        response = self.guest_client.get(
+        response = self.authorized_client.get(
             reverse("posts:post_detail", kwargs={"post_id": self.post.id})
         )
         obj = response.context["post"]

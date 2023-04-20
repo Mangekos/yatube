@@ -1,5 +1,6 @@
 {% load user_filters %}
 
+<div class="card my-4 glass" style="background:linear-gradient(0deg, rgba(240, 244, 254, 0.63), rgba(240, 244, 254, 0.63));">
 {% if user.is_authenticated %}
   <div class="card my-4">
     <h5 class="card-header">Добавить комментарий:</h5>
@@ -29,3 +30,4 @@
     </div>
   </div>
 {% endfor %} 
+</div>

@@ -1,18 +1,24 @@
+import shutil
 from django.contrib.auth import get_user_model
-from django.test import TestCase, Client
+from django.test import TestCase, Client, override_settings
 from django.urls import reverse
 from django import forms
 from django.core.cache import cache
+import tempfile
+from django.conf import settings
 
 from posts.models import Post, Group, Comment, Follow
 
 User = get_user_model()
 TEST_OF_POST: int = 10
+TEMP_MEDIA_ROOT = tempfile.mkdtemp(dir=settings.BASE_DIR)
 
 
+@override_settings(MEDIA_ROOT=TEMP_MEDIA_ROOT)
 class PostViewsTest(TestCase):
     @classmethod
     def setUpClass(cls):
+        """Создаем запись в базе"""
         super().setUpClass()
         cls.user = User.objects.create_user(username='HasNoName')
         cls.group = Group.objects.create(
@@ -26,19 +32,23 @@ class PostViewsTest(TestCase):
             group=cls.group
         )
 
+    @classmethod
+    def tearDownClass(cls):
+        """Удаляем папку медиа"""
+        super().tearDownClass()
+        shutil.rmtree(TEMP_MEDIA_ROOT, ignore_errors=True)
+
     def setUp(self):
-        # Очищаем cache конфликт в тестах
+        """Очищаем cache конфликт в тестах.
+        Создаем неавторизованный клиент.
+        Создаём авторизованный клиент."""
         cache.clear()
-        # Создаем неавторизованный клиент
         self.guest_client = Client()
-        # Создаём авторизованный клиент
         self.authorized_client = Client()
         self.authorized_client.force_login(PostViewsTest.user)
 
-    # Проверяем используемые шаблоны
     def test_pages_uses_correct_template(self):
         """View-функция использует соответствующий шаблон."""
-        # Собираем в словарь пары "reverse(name): имя_html_шаблона"
         templates_pages_names = {
             reverse('posts:index'): 'posts/index.html',
             reverse('posts:group_list', kwargs={'slug': self.group.slug}):
@@ -54,7 +64,6 @@ class PostViewsTest(TestCase):
             ): 'posts/create_post.html',
             reverse('posts:post_create'): 'posts/create_post.html',
         }
-        # Проверяем URLS использует соответствующий HTML-шаблон
         for reverse_name, template in templates_pages_names.items():
             with self.subTest(reverse_name=reverse_name):
                 response = self.authorized_client.get(reverse_name)
@@ -98,8 +107,6 @@ class PostViewsTest(TestCase):
         response = self.authorized_client.get(
             reverse('posts:post_edit', kwargs={'post_id': self.post.id})
         )
-        # Словарь ожидаемых типов полей формы:
-        # указываем, объектами какого класса должны быть поля формы
         form_fields = {
             'text': forms.fields.CharField,
             'group': forms.models.ModelChoiceField,
@@ -174,23 +181,23 @@ class PostViewsTest(TestCase):
 
     def test_follow_page(self):
         """Подписка на авторов, работает корректно"""
-        # Проверяем, что страница подписок пуста
+        """Проверяем, что страница подписок пуста"""
         response = self.authorized_client.get(reverse("posts:follow_index"))
         self.assertEqual(len(response.context["page_obj"]), 0)
-        # Проверка подписки на автора поста
+        """Проверка подписки на автора поста"""
         Follow.objects.get_or_create(user=self.user, author=self.post.author)
         response = self.authorized_client.get(reverse("posts:follow_index"))
         self.assertEqual(len(response.context["page_obj"]), 1)
-        # проверка подписки у юзера-фоловера
+        """Проверка подписки у юзера-фоловера"""
         self.assertIn(self.post, response.context["page_obj"])
 
-        # Проверка что пост не появился в избранных у юзера-обычного
+        """Проверка что пост не появился в избранных у юзера-обычного"""
         outsider = User.objects.create(username="NoName")
         self.authorized_client.force_login(outsider)
         response = self.authorized_client.get(reverse("posts:follow_index"))
         self.assertNotIn(self.post, response.context["page_obj"])
 
-        # Проверка отписки от автора поста
+        """Проверка отписки от автора поста"""
         Follow.objects.all().delete()
         response = self.authorized_client.get(reverse("posts:follow_index"))
         self.assertEqual(len(response.context["page_obj"]), 0)

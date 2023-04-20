@@ -11,6 +11,7 @@ User = get_user_model()
 class PostURLSTest(TestCase):
     @classmethod
     def setUpClass(cls):
+        """Создаем запись в базе"""
         super().setUpClass()
         cls.user = User.objects.create_user(username='HasNoName')
         cls.group = Group.objects.create(
@@ -24,18 +25,16 @@ class PostURLSTest(TestCase):
         )
 
     def setUp(self):
-        # Очищаем cache конфликт в тестах
+        """Очищаем cache конфликт в тестах.
+        Создаем неавторизованный клиент.
+        Создаём авторизованный клиент."""
         cache.clear()
-        # Создаем неавторизованный клиент
         self.guest_client = Client()
-        # Создаем второй клиент
         self.authorized_client = Client()
-        # Авторизуем пользователя
         self.authorized_client.force_login(PostURLSTest.user)
 
     def test_urls_uses_correct_template(self):
         """URL-адрес использует соответствующий шаблон."""
-        # Шаблоны по адресам
         templates_url_names = {
             '/': 'posts/index.html',
             f'/group/{self.group.slug}/': 'posts/group_list.html',

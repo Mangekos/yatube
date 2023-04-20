@@ -20,16 +20,16 @@
     p {
         font-size: 18px;
       }
-      html, body {
+    html, body {
         height: 100%;
         margin: 0;
         padding: 0;
         overflow: hidden;
       }
-      body {
+    body {
         overflow: auto; /* добавить полосу прокрутки */ 
       }
-      main {
+    main {
         min-height: 80%;
       }   
     .glass{
@@ -40,6 +40,29 @@
         border:1px solid rgba(255, 255, 255, 0.18);
         box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
     }
+    .iksweb{
+        display: inline-block;
+        cursor: pointer;
+        font-size:14px;
+        text-decoration:none;
+        padding:10px 20px;
+        color:#ffffff;
+        background:linear-gradient(0deg, rgba(194, 59, 182, 0.47), rgba(194, 59, 182, 0.47));
+        border-radius:60px;
+        border:3px solid #557A95;
+    }
+    .iksweb:hover{
+        background:#557A95;
+        color:#ffffff;
+        border:3px solid #557A95;
+        transition: all 0.2s ease;
+    }
+    .center {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
+    }
     </style>
     <title>
     {% block title %}
@@ -47,7 +70,7 @@
     {% endblock %}
     </title>
   </head>
-  <body style="background: linear-gradient(rgb(123, 171, 205), black);">
+  <body style="background: linear-gradient(0deg, #4025E3 -0.73%, rgba(85, 122, 149, 0.510967) 40.98%, rgba(85, 122, 149, 0.65) 61.89%, rgba(85, 122, 149, 0.94) 100%);">
     {% block header %}
       {% include 'includes/header.html' %}
     {% endblock %} 
