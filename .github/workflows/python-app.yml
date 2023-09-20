@@ -30,5 +30,4 @@ jobs:
         DEBUG: 1
         ALLOWED_HOSTS: "*"
       run: |
-        cd /yatube/
         pytest
