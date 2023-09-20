@@ -6,10 +6,10 @@
 Пост {{post.text|truncatechars:30 }}
 {% endblock %}
 {% block content %}
-<div class="container py-5">
-      <div class="row glass" style="background:linear-gradient(0deg, rgba(240, 244, 254, 0.63), rgba(240, 244, 254, 0.63));">
-      <aside class="col-12 col-md-3" >
-        <ul style="background-color: transparent;" class="list-group list-group-flush">
+<div class="container py-5 ">
+      <div class="row col-11 glass " style="background:linear-gradient(0deg, rgba(240, 244, 254, 0.63), rgba(240, 244, 254, 0.63));">
+      <aside class="col-12 col-md-3 " >
+        <ul style="background-color: transparent;" class="list-group list-group-flush play">
           <li style="background-color: transparent;" class="list-group-item"
           ><i class="bi bi-calendar3"></i>
             {{ post.pub_date|date:"d E Y" }} 
@@ -37,16 +37,17 @@
             </li>
           </ul>
         </aside>
-        <article class="col-12 col-md-9" style= "background: linear-gradient(0deg, rgba(144, 37, 134, 0.510967) 2.15%, rgba(116, 78, 141, 0) 49.08%, rgba(85, 122, 149, 0.5) 100%);">
+        <article class="col-12 col-md-9 play" style= "">
             {% thumbnail post.image "x339"  crop="center"  as im %}
             <img class="img-thumbnail mx-auto d-block " src="{{ im.url }}" >
             {% endthumbnail %}
-                  <p style="font-size: 15px; ">
+            <br>
+                  <p class= "merri" style="font-size: 15px; ">
             {{ post.text|linebreaksbr }}
           </p>
           {% if user == post.author %}
               <a class="btn btn-primary" href="{% url 'posts:post_edit' post_id=post.id %}">
-                 редактировать запись
+                 Редактировать запись
               </a>
           {% endif %}
         </article>

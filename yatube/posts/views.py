@@ -3,7 +3,6 @@ from django.contrib.auth.decorators import login_required
 from .models import Post, Group, User, Comment, Follow
 from django.core.paginator import Paginator
 from .forms import PostForm, CommentForm
-from django.views.decorators.cache import cache_page
 
 
 NUMBER_POSTS = 10
@@ -17,7 +16,6 @@ def get_paginator(posts, request):
     return page_obj
 
 
-@cache_page(20)
 def index(request):
     """Главная страница"""
     posts = Post.objects.all()
@@ -46,7 +44,10 @@ def profile(request, username):
     """Информация о профиле"""
     author = get_object_or_404(User, username=username)
     posts = author.posts.all()
-    following = author.following.all()
+    following = request.user.is_authenticated and Follow.objects.filter(
+        user=request.user,
+        author=author,
+    ).exists()
     context = {
         'author': author,
         'page_obj': get_paginator(posts, request),

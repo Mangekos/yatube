@@ -5,13 +5,13 @@
 {% block content %}
 <div class="container py-5">
     <div class="row text-center">
-      <div class="col-6">
-        <div class="card h-100 glass">
+      <div class="col-md-6" >
+        <div class="card h-100 glass" style= "background:linear-gradient(0deg, rgba(240, 244, 254, 0.63), rgba(240, 244, 254, 0.63));">
             <div class="card-header text-center"
-              ><h5>В данном проекте очень помогли:</h5>
+              ><h5 class="play">В данном проекте очень помогли:</h5>
             </div>
             <div class="card-body" >
-                <p class="card-text" style="font-size: 18px; ">
+                <p class="card-text merri" style="font-size: 18px; ">
                 Работа с базами SQLite
                 <br>
                 Принципы ООП
@@ -25,8 +25,8 @@
                 Ревьюеры
               </ul>
             </div>
-            <div class="card-footer text-center">
-              <h5>Огромное Вам спасибо, без вашей помощи, я бы не научился искать ошибки и способы их решения</h5>
+            <div class="card-footer text-center play">
+              <h5 >Огромное Вам спасибо, без вашей помощи, я бы не научился искать ошибки и способы их решения</h5>
               <br>
               <h5>Отдельное спасибо команде поддержки и сопровождения</h5>
             </div>    
@@ -35,14 +35,15 @@
     </div>
 </div>
 <div class="container">
-    <div class="row row-cols-3 row-cols-md-3 g-4">
-        <div class="col">
-            <div class="card h-100">
+    <div class="col col-md-8">
+    <div class="row row-cols-md-3 g-4">
+        <div class="col play">
+            <div class="card h-100" >
               <img src="{% static 'img/Vikusy.jpg' %}" class="card-img-top" alt="...">
               <div class="card-header text-center"
                 ><h5>Супруга/Дизайнер</h5>
               </div>
-              <div class="card-body">
+              <div class="card-body merri" >
                 <p class="card-text">
                   Хочу сказать спасибо, за качественный дизайн.
                   <br>
@@ -62,8 +63,8 @@
             <div class="card-header text-center"
               ><h5>Ревьюер</h5>
             </div>
-            <div class="card-body">
-              <p class="card-text">
+            <div class="card-body merri" >
+                <p class="card-text">
                 Хочу сказать спасибо, за качественное ревью.
                 <br>
                 А так же, что дала возможность, довести свой проект без рефакторинга до конца.
@@ -80,8 +81,8 @@
             <div class="card-header text-center"
               ><h5>Наставник</h5>
             </div>
-            <div class="card-body">
-              <p class="card-text">
+            <div class="card-body merri" >
+                <p class="card-text">
                 Хочу сказать спасибо, за вебинар "Декораторы". 
                 <br>
                 Было очень интересно, часть информации использую до сих пор.
@@ -103,8 +104,8 @@
             <div class="card-header text-center"
               ><h5>Наставник</h5>
             </div>
-            <div class="card-body">
-              <p class="card-text">
+            <div class="card-body merri" >
+                <p class="card-text">
                 Хочу сказать спасибо, за вебинар "Тестирование Django". 
                 <br>
                 Хоть тесты и написал с закрытыми глазами, но твой вебинар все расставил на свои места.
@@ -123,8 +124,8 @@
             <div class="card-header text-center"
               ><h5>Наставник</h5>
             </div>
-            <div class="card-body">
-              <p class="card-text">
+            <div class="card-body merri" >
+                <p class="card-text">
                 Хочу сказать спасибо, за вебинар по ООП.
                 <br>
                 А так же, за поддержку в течении всего блока. За веру в меня и то что я делаю.
@@ -142,8 +143,8 @@
             <div class="card-header text-center"
               ><h5>Наставник</h5>
             </div>
-            <div class="card-body">
-              <p class="card-text">
+            <div class="card-body merri" >
+                <p class="card-text">
                 Хочу сказать спасибо, за вебинар Django и ORM.
                 <br>
                 А так же, за поддержку в течении всего блока.
@@ -162,8 +163,8 @@
             <div class="card-header text-center"
               ><h5>Сокурсник</h5>
             </div>
-            <div class="card-body">
-              <p class="card-text">
+            <div class="card-body merri" >
+                <p class="card-text">
                 Хочу сказать спасибо, за твой вечный гениратор идей. 
                 <br>
                 Половина из того, что есть в данном проекте простые идеи. Которые хотелось реализовать.
@@ -182,8 +183,8 @@
             <div class="card-header text-center"
               ><h5>Сокурсник</h5>
             </div>
-            <div class="card-body">
-              <p class="card-text">
+            <div class="card-body merri" >
+                <p class="card-text">
                 Хочу сказать спасибо, как ни странно, за твои ошибки в проекте. 
                 <br>
                 Без ошибок и поиска решений, мы бы с тобой не развивались. Иногда я просто не умею ломать проект как вы.
@@ -202,8 +203,8 @@
             <div class="card-header text-center"
               ><h5>Сокурсник</h5>
             </div>
-            <div class="card-body">
-              <p class="card-text">
+            <div class="card-body merri" >
+                <p class="card-text">
                 Хочу сказать спасибо, за толчек в развитии стилей проекта. 
                 <br>
                 Иконки, цвета сайта, картинки - начало этому лежит в твоем первом файле style.css. Посмотрев на который, я решил все изменить.

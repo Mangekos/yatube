@@ -1,5 +1,5 @@
 {% load user_filters %}
-<div class="card-body" style="">        
+<div class="card-body text-white" style="">        
     {% if form.errors %}
       {% for field in form %}
         {% for error in field.errors %}            
@@ -39,7 +39,7 @@
       <div>
       {{ field|addclass:'form-control' }}
         {% if field.help_text %}
-          <small id="{{ field.id_for_label }}-help" class="form-text text-muted">
+          <small id="{{ field.id_for_label }}-help" class="form-text text-warning">
             {{ field.help_text|safe }}
           </small>
         {% endif %}

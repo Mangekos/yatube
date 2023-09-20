@@ -6,11 +6,13 @@
 <div class="container py-5 " >        
     <div class="row justify-content-md-center ">
         <div class="col col-md-8">
-        <h1>{{ title }}</h1>
+        <h1 class="play">{{ title }}</h1>
         {% include 'includes/switcher.html' %}
         </div>
         </div>
         <br>
+        {% load cache %}
+        {% cache 20 sidebar request.user.username %}
         <div class="row justify-content-md-center">
             <div class="col col-md-8">
                 {% for post in page_obj %}
@@ -22,6 +24,7 @@
                 {% include 'posts/paginator.html' %}
             </div>
         </div>
+        {% endcache %} 
     </div>
 </div>
 {% endblock %}

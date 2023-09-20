@@ -4,42 +4,43 @@
 {{ author.get_full_name }} профайл пользователя 
 {% endblock %}
 {% block content %}
-        <div class="container py-5 " >        
-            <div class="row justify-content-md-center ">
-                <div class="col col-md-8">
-                    <div class="mb-5">
-            <h1>Все посты пользователя {{ author.get_full_name }}</h1>
-            <h3>Всего постов: {{ author.posts.count }} </h3>   
-            {% if following %}
-            <a
-              class="btn btn-lg btn-danger"
-              href="{% url 'posts:profile_unfollow' author.username %}" role="button"
-            >
-              Отписаться
-            </a>
-          {% else %}
-              <a
-                class="btn btn-lg btn-success"
-                href="{% url 'posts:profile_follow' author.username %}" role="button"
-              >
-                Подписаться
-              </a>
-           {% endif %}
-            </div>
-            </div>
-        </div>
-        <br>
-        <div class="row justify-content-md-center">
-            <div class="col col-md-8" >
-                {% for post in page_obj %}
-                {% include 'includes/post_list.html' %}
-                {% if not forloop.last %}
-                <hr>
-                {% endif %}
-                {% endfor %}
-                {% include 'posts/paginator.html' %}
-            </div>
-        </div>
+<div class="container py-5 " >        
+  <div class="row justify-content-md-center ">
+    <div class="col col-md-8">
+      <div class="mb-5">
+        <h1 class="play">Все посты пользователя {{ author.get_full_name }}</h1>
+        <h3 class="play">Всего постов: {{ author.posts.count }} </h3>   
+        {% if user.is_authenticated %}
+        {% if following %}
+        <a
+          class="btn btn-lg btn-danger btn-circle"
+          href="{% url 'posts:profile_unfollow' author.username %}" role="button"
+        ><i class="bi bi-hand-thumbs-down-fill"></i>
+          Отписаться
+        </a>
+        {% else %}
+        <a
+          class="btn btn-lg btn-success btn-circle"
+          href="{% url 'posts:profile_follow' author.username %}" role="button"
+        ><i class="bi bi-hand-thumbs-up-fill"></i>
+          Подписаться
+        </a>
+        {% endif %}
+        {% endif %}
+      </div>
     </div>
+  </div>
+  <br>
+  <div class="row justify-content-md-center">
+    <div class="col col-md-8" >
+    {% for post in page_obj %}
+    {% include 'includes/post_list.html' %}
+    {% if not forloop.last %}
+    <hr>
+    {% endif %}
+    {% endfor %}
+    {% include 'posts/paginator.html' %}
+    </div>
+  </div>
 </div>
 {% endblock %}
