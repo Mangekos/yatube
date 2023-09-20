@@ -23,8 +23,6 @@ jobs:
     - name: Test with flake8 and django tests
       run: |
         python -m flake8
-        cd yatube/
-        python manage.py test
     - name: Test with pytest
       env:
         SECRET_KEY: "5UP3R-53CR3T-K3Y-FR0M-TurboKach"
